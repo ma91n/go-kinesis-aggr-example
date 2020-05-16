@@ -10,6 +10,8 @@ import (
 )
 
 func handle(e events.KinesisEvent) error {
+	fmt.Println("【Start DeAggregation Lambda】", len(e.Records))
+
 	krs := make([]*kinesis.Record, 0, len(e.Records))
 
 	for _, r := range e.Records {

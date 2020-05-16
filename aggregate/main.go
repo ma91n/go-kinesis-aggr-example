@@ -1,22 +1,26 @@
 package main
 
 import (
+	"fmt"
 	"github.com/a8m/kinesis-producer"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/kinesis"
 	"golang.org/x/sync/errgroup"
 	"os"
 )
 
-var pr = producer.New(&producer.Config{
-	StreamName: os.Getenv("KINESIS_STREAM"),
-	Client:     kinesis.New(session.New(aws.NewConfig())),
-})
+var kc = kinesis.New(session.Must(session.NewSession()))
 
 func handle(e events.KinesisEvent) error {
+	fmt.Println("【Start Aggregation Lambda】", len(e.Records))
+
+	var pr = producer.New(&producer.Config{
+		StreamName: os.Getenv("KINESIS_STREAM"),
+		Client:     kc,
+	})
+
 	eg := errgroup.Group{}
 
 	pr.Start() // Producer用のgoroutine起動
