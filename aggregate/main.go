@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"github.com/a8m/kinesis-producer"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -17,7 +16,7 @@ var pr = producer.New(&producer.Config{
 	Client:     kinesis.New(session.New(aws.NewConfig())),
 })
 
-func handle(ctx context.Context, e events.KinesisEvent) error {
+func handle(e events.KinesisEvent) error {
 	eg := errgroup.Group{}
 
 	pr.Start() // Producer用のgoroutine起動

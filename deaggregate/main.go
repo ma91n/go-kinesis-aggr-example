@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -10,7 +9,7 @@ import (
 	deagg "github.com/awslabs/kinesis-aggregation/go/deaggregator"
 )
 
-func handle(ctx context.Context, e events.KinesisEvent) error {
+func handle(e events.KinesisEvent) error {
 	krs := make([]*kinesis.Record, 0, len(e.Records))
 
 	for _, r := range e.Records {
