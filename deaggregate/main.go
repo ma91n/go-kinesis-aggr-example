@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
@@ -19,7 +20,7 @@ func handle(e events.KinesisEvent) error {
 			ApproximateArrivalTimestamp: aws.Time(r.Kinesis.ApproximateArrivalTimestamp.UTC()),
 			Data:                        r.Kinesis.Data,
 			EncryptionType:              &r.Kinesis.EncryptionType,
-			PartitionKey:                &r.Kinesis.EncryptionType,
+			PartitionKey:                &r.Kinesis.PartitionKey,
 			SequenceNumber:              &r.Kinesis.SequenceNumber,
 		})
 	}
